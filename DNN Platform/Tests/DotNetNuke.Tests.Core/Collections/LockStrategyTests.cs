@@ -1,6 +1,6 @@
 ﻿#region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -43,7 +43,7 @@ namespace DotNetNuke.Tests.Core.Collections
         }
 
         [Test, ExpectedException(typeof (LockRecursionException))]
-        public void DoubleReadLockThrows()
+        public virtual void DoubleReadLockThrows()
         {
             using (var strategy = GetLockStrategy())
             {
@@ -136,7 +136,7 @@ namespace DotNetNuke.Tests.Core.Collections
         }
 
         [Test, ExpectedException(typeof (LockRecursionException))]
-        public void DoubleWriteLockThrows()
+        public virtual void DoubleWriteLockThrows()
         {
             using (ILockStrategy strategy = GetLockStrategy())
             {

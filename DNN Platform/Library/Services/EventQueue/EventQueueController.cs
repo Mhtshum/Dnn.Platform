@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -294,15 +294,6 @@ namespace DotNetNuke.Services.EventQueue
         }
 		
 		#endregion
-		
-		#region "Obsolete Methods"
-
-        [Obsolete("This method is obsolete. Use Sendmessage(message, eventName) instead")]
-        public bool SendMessage(EventMessage message, string eventName, bool encryptMessage)
-        {
-            return SendMessage(message, eventName);
-        }
-		
-		#endregion
+        
     }
 }

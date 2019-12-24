@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -102,6 +102,7 @@ namespace DotNetNuke.Web.Api
         }
 
         //TODO: this method need remove after drop use old api format.
+        [Obsolete("Replaced with GetRouteUrl.  Scheduled for removal in v11.0.0")]
         public static string GetOldRouteUrl(string moduleFolderName, string url, int count)
         {
             Requires.NotNegative("count", count);

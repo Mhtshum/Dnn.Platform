@@ -1,5 +1,5 @@
 '
-' DotNetNuke® - http://www.dotnetnuke.com
+' DotNetNukeÂ® - https://www.dnnsoftware.com
 ' Copyright (c) 2002-2018
 ' by DotNetNuke Corporation
 '
@@ -747,9 +747,6 @@ Namespace DotNetNuke.UI.Utilities
             Else
                 objDict.Add(strVar, strValue)
             End If
-
-            'TODO: JON to serialize this each time is quite a perf hit.  better to somehow sync the prerender event and do it once
-            'SerializeClientVariableDictionary(objPage, objDict)
 
             'instead of serializing each time, do it once
             If HttpContext.Current.Items("CAPIPreRender") Is Nothing Then

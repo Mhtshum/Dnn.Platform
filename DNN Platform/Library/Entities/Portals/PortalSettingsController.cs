@@ -1,7 +1,7 @@
 ﻿#region Copyright
 
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -217,6 +217,8 @@ namespace DotNetNuke.Entities.Portals
             portalSettings.SearchTabId = portal.SearchTabId;
             portalSettings.ErrorPage404 = portal.Custom404TabId;
             portalSettings.ErrorPage500 = portal.Custom500TabId;
+            portalSettings.TermsTabId = portal.TermsTabId;
+            portalSettings.PrivacyTabId = portal.PrivacyTabId;
             portalSettings.DefaultLanguage = Null.IsNull(portal.DefaultLanguage) ? Localization.SystemLocale : portal.DefaultLanguage;
             portalSettings.HomeDirectory = Globals.ApplicationPath + "/" + portal.HomeDirectory + "/";
             portalSettings.HomeDirectoryMapPath = portal.HomeDirectoryMapPath;
@@ -253,6 +255,7 @@ namespace DotNetNuke.Entities.Portals
             portalSettings.DefaultAdminSkin = settings.GetValueOrDefault("DefaultAdminSkin", Host.Host.DefaultAdminSkin);
             portalSettings.DefaultIconLocation = settings.GetValueOrDefault("DefaultIconLocation", "icons/sigma");
             portalSettings.DefaultModuleId = settings.GetValueOrDefault("defaultmoduleid", Null.NullInteger);
+            portalSettings.DefaultModuleActionMenu = settings.GetValueOrDefault("DefaultModuleActionMenu", "~/admin/Menus/ModuleActions/ModuleActions.ascx");
             portalSettings.DefaultPortalContainer = settings.GetValueOrDefault("DefaultPortalContainer", Host.Host.DefaultPortalContainer);
             portalSettings.DefaultPortalSkin = settings.GetValueOrDefault("DefaultPortalSkin", Host.Host.DefaultPortalSkin);
             portalSettings.DefaultTabId = settings.GetValueOrDefault("defaulttabid", Null.NullInteger);
@@ -261,6 +264,8 @@ namespace DotNetNuke.Entities.Portals
             portalSettings.EnablePopUps = settings.GetValueOrDefault("EnablePopUps", true);
             portalSettings.HideLoginControl = settings.GetValueOrDefault("HideLoginControl", false);
             portalSettings.EnableSkinWidgets = settings.GetValueOrDefault("EnableSkinWidgets", true);
+            portalSettings.ShowCookieConsent = settings.GetValueOrDefault("ShowCookieConsent", false);
+            portalSettings.CookieMoreLink = settings.GetValueOrDefault("CookieMoreLink", Null.NullString);
             portalSettings.EnableUrlLanguage = settings.GetValueOrDefault("EnableUrlLanguage", Host.Host.EnableUrlLanguage);
             portalSettings.HideFoldersEnabled = settings.GetValueOrDefault("HideFoldersEnabled", true);
             portalSettings.InlineEditorEnabled = settings.GetValueOrDefault("InlineEditorEnabled", true);
@@ -302,6 +307,23 @@ namespace DotNetNuke.Entities.Portals
                 if (timeZone != null)
                     portalSettings.TimeZone = timeZone;
             }
+
+            setting = settings.GetValueOrDefault("DataConsentActive", "False");
+            portalSettings.DataConsentActive = bool.Parse(setting);
+            setting = settings.GetValueOrDefault("DataConsentTermsLastChange", "");
+            if (!string.IsNullOrEmpty(setting))
+            {
+                portalSettings.DataConsentTermsLastChange = DateTime.Parse(setting, System.Globalization.CultureInfo.InvariantCulture);
+            }
+            setting = settings.GetValueOrDefault("DataConsentConsentRedirect", "-1");
+            portalSettings.DataConsentConsentRedirect = int.Parse(setting);
+            setting = settings.GetValueOrDefault("DataConsentUserDeleteAction", "0");
+            portalSettings.DataConsentUserDeleteAction = (PortalSettings.UserDeleteAction)int.Parse(setting);
+            setting = settings.GetValueOrDefault("DataConsentDelay", "1");
+            portalSettings.DataConsentDelay = int.Parse(setting);
+            setting = settings.GetValueOrDefault("DataConsentDelayMeasurement", "d");
+            portalSettings.DataConsentDelayMeasurement = setting;
+
         }
 
         protected virtual void UpdateSkinSettings(TabInfo activeTab, PortalSettings portalSettings)

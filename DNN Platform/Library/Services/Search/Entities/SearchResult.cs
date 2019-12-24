@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -33,7 +33,6 @@ namespace DotNetNuke.Services.Search.Entities
     /// <summary>
     /// Search Result to be displayed to end user
     ///
-    /// TODO:
     /// Inherited "Body" property from SearchDocument may be purposefully left empty for performance purposes.
     /// </summary>
     [Serializable]

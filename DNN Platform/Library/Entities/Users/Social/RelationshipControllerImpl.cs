@@ -1,6 +1,6 @@
 ﻿#region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -387,17 +387,14 @@ namespace DotNetNuke.Entities.Users.Social
             //use Relationship DefaultResponse as status
             RelationshipStatus status = relationship.DefaultResponse;
 
-            //check if there is a custom relationship status setting for the user. 
-            //TODO - Is this check only applicable for portal or host list
-            //if (relationship.IsPortalList || relationship.IsHostList)
+
+            UserRelationshipPreference preference = GetUserRelationshipPreference(targetUser.UserID,
+                                                                                  relationship.RelationshipId);
+            if (preference != null)
             {
-                UserRelationshipPreference preference = GetUserRelationshipPreference(targetUser.UserID,
-                                                                                      relationship.RelationshipId);
-                if (preference != null)
-                {
-                    status = preference.DefaultResponse;
-                }
+                status = preference.DefaultResponse;
             }
+            
 
             if (status == RelationshipStatus.None)
             {

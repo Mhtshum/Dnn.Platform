@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -105,6 +105,7 @@ namespace DotNetNuke.Entities.Users
         /// Gets and sets whether the User Is Online
         /// </summary>
         /// -----------------------------------------------------------------------------
+        [Obsolete("Support for users online was removed in 8.x, other solutions exist outside of the DNN Platform.  Scheduled removal in v11.0.0.")]
         public bool IsOnLine { get; set; }
 
         /// -----------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -50,7 +50,7 @@ namespace DotNetNuke.Security.Profile
 		public abstract void GetUserProfile(ref UserInfo user);
 
         public abstract void UpdateUserProfile(UserInfo user);
-		
+
 		#endregion
     }
 }

@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -103,7 +103,7 @@ namespace DotNetNuke.UI.WebControls
 
         public abstract string HtmlOutput { get; }
 
-        [Obsolete("There is no longer the concept of an Admin Page.  All pages are controlled by Permissions", true)]
+        [Obsolete("There is no longer the concept of an Admin Page.  All pages are controlled by Permissions. Scheduled removal in v11.0.0.", true)]
         public bool IsAdminMenu
         {
             get

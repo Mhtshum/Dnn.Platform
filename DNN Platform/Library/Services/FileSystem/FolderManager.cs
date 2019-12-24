@@ -1,6 +1,6 @@
 ﻿#region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -190,7 +190,7 @@ namespace DotNetNuke.Services.FileSystem
 
             if (DirectoryWrapper.Instance.Exists(folder.PhysicalPath))
             {
-                DirectoryWrapper.Instance.Delete(folder.PhysicalPath, false);
+                DirectoryWrapper.Instance.Delete(folder.PhysicalPath, true);
             }
             DeleteFolder(folder.PortalID, folder.FolderPath);
 
@@ -211,7 +211,8 @@ namespace DotNetNuke.Services.FileSystem
 
         private IEnumerable<IFileInfo> SearchFiles(IFolderInfo folder, Regex regex, bool recursive)
         {
-            var fileCollection = CBO.Instance.FillCollection<FileInfo>(DataProvider.Instance().GetFiles(folder.FolderID));
+            var fileCollection =
+                CBO.Instance.FillCollection<FileInfo>(DataProvider.Instance().GetFiles(folder.FolderID, false, false));
 
             var files = (from f in fileCollection where regex.IsMatch(f.FileName) select f).Cast<IFileInfo>().ToList();
 
@@ -619,19 +620,7 @@ namespace DotNetNuke.Services.FileSystem
         {
             Requires.NotNull("folder", folder);
 
-            var fileCollection = CBO.Instance.FillCollection<FileInfo>(DataProvider.Instance().GetFiles(folder.FolderID, retrieveUnpublishedFiles));
-
-            var files = fileCollection.Cast<IFileInfo>().ToList();
-
-            if (recursive)
-            {
-                foreach (var subFolder in GetFolders(folder, true))
-                {
-                    files.AddRange(GetFiles(subFolder, false, retrieveUnpublishedFiles));
-                }
-            }
-
-            return files;
+            return CBO.Instance.FillCollection<FileInfo>(DataProvider.Instance().GetFiles(folder.FolderID, retrieveUnpublishedFiles, recursive));
         }
 
         /// <summary>
@@ -2247,34 +2236,6 @@ namespace DotNetNuke.Services.FileSystem
 
         #endregion
 
-        #region Obsolete Methods
-
-        /// <summary>
-        /// Moves the specified folder and its contents to a new location.
-        /// </summary>
-        /// <param name="folder">The folder to move.</param>
-        /// <param name="newFolderPath">The new folder path.</param>
-        /// <returns>The moved folder.</returns>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Deprecated in DNN 7.1.  It has been replaced by FolderManager.Instance.MoveFolder(IFolderInfo folder, IFolderInfo destinationFolder) ")]
-        public virtual IFolderInfo MoveFolder(IFolderInfo folder, string newFolderPath)
-        {
-            Requires.NotNull("folder", folder);
-            Requires.NotNullOrEmpty("newFolderPath", newFolderPath);
-
-            var nameCharIndex = newFolderPath.Substring(0, newFolderPath.Length - 1).LastIndexOf("/", StringComparison.Ordinal) + 1;
-            var parentFolder = GetFolder(folder.PortalID, newFolderPath.Substring(0, nameCharIndex));
-            if (parentFolder.FolderID == folder.ParentID)
-            {
-                var newFolderName = newFolderPath.Substring(nameCharIndex, newFolderPath.Length - nameCharIndex - 1);
-                RenameFolder(folder, newFolderName);
-                return folder;
-            }
-
-            return MoveFolder(folder, parentFolder);
-        }
-
-        #endregion
     }
 
     class SyncFolderData

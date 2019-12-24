@@ -1,6 +1,6 @@
 ﻿#region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -30,8 +30,10 @@ using DotNetNuke.UI.Modules;
 
 namespace DotNetNuke.Web.Razor
 {
+    [Obsolete("Deprecated in 9.3.2, will be removed in 11.0.0, use Razor Pages instead")]
     public class RazorModuleBase : ModuleUserControlBase
     {
+        [Obsolete("Deprecated in 9.3.2, will be removed in 11.0.0, use Razor Pages instead")]
         protected virtual string RazorScriptFile
         {
             get
@@ -56,6 +58,7 @@ namespace DotNetNuke.Web.Razor
             }
         }
 
+        [Obsolete("Deprecated in 9.3.2, will be removed in 11.0.0, use Razor Pages instead")]
         protected override void OnPreRender(EventArgs e)
         {
             base.OnPreRender(e);

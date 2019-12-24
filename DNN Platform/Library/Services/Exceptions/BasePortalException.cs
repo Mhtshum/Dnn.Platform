@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -180,13 +180,13 @@ namespace DotNetNuke.Services.Exceptions
 
                 if (context != null)
                 {
-                    RawURL = context.Request.RawUrl;
-                    AbsoluteURL = context.Request.Url.AbsolutePath;
+                    RawURL = HttpUtility.HtmlEncode(context.Request.RawUrl);
+                    AbsoluteURL = HttpUtility.HtmlEncode(context.Request.Url.AbsolutePath);
                     if (context.Request.UrlReferrer != null)
                     {
-                        AbsoluteURLReferrer = context.Request.UrlReferrer.AbsoluteUri;
+                        AbsoluteURLReferrer = HttpUtility.HtmlEncode(context.Request.UrlReferrer.AbsoluteUri);
                     }
-                    UserAgent = context.Request.UserAgent;
+                    UserAgent = HttpUtility.HtmlEncode(context.Request.UserAgent ?? "");
                 }
                 else
                 {

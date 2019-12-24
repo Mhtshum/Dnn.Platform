@@ -1,6 +1,6 @@
 ﻿#region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -25,7 +25,7 @@ using NUnit.Framework;
 
 namespace DotNetNuke.Tests.Utilities
 {
-    [Obsolete("Use Assert.Exception or ExpectedExceptionAttribute")]
+    [Obsolete("Use Assert.Exception or ExpectedExceptionAttribute. Scheduled removal in v11.0.0.")]
     public static class ExceptionAssert
     {
         //public static void Throws<TException>(Action act) where TException : Exception

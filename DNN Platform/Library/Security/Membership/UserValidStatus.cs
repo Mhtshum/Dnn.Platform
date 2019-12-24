@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -26,6 +26,7 @@ namespace DotNetNuke.Security.Membership
         PASSWORDEXPIRED = 1,
         PASSWORDEXPIRING = 2,
         UPDATEPROFILE = 3,
-        UPDATEPASSWORD = 4
+        UPDATEPASSWORD = 4,
+        MUSTAGREETOTERMS = 5
     }
 }

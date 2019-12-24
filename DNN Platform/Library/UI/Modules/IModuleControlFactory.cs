@@ -1,4 +1,4 @@
-﻿// DotNetNuke® - http://www.dotnetnuke.com
+﻿// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -25,9 +25,8 @@ namespace DotNetNuke.UI.Modules
     public interface IModuleControlFactory
     {
         Control CreateControl(TemplateControl containerControl, string controlKey, string controlSrc);
-
         Control CreateModuleControl(TemplateControl containerControl, ModuleInfo moduleConfiguration);
-
+        ModuleControlBase CreateModuleControl(ModuleInfo moduleConfiguration);
         Control CreateSettingsControl(TemplateControl containerControl, ModuleInfo moduleConfiguration, string controlSrc);
     }
 }

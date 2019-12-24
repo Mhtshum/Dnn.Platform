@@ -1,7 +1,7 @@
 ﻿#region Copyright
 
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -25,10 +25,12 @@ using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using DotNetNuke.Common;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.UI.Modules;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 using DotNetNuke.Web.Mvc.Framework.Modules;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
 
@@ -39,6 +41,14 @@ namespace DotNetNuke.Tests.Web.Mvc.Framework.Modules
     {
         private const string ActionName = "Action";
         private const string ControllerName = "Controller";
+
+        [SetUp]
+        public void Setup()
+        {
+            var services = new ServiceCollection();
+            services.AddSingleton<IControllerFactory, DefaultControllerFactory>();
+            Globals.DependencyProvider = services.BuildServiceProvider();
+        }
 
         [Test]
         public void Init_Is_Called_In_First_ExecuteRequest_And_Not_In_Subsequent_Requests()

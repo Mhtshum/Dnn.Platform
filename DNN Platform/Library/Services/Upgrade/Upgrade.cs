@@ -1,7 +1,7 @@
 
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -114,7 +114,7 @@ namespace DotNetNuke.Services.Upgrade
         private const string FipsCompilanceAssembliesFolder = "App_Data\\FipsCompilanceAssemblies";
 
         #endregion
-
+        
         #region Public Properties
 
         public static string DefaultProvider
@@ -2094,90 +2094,6 @@ namespace DotNetNuke.Services.Upgrade
             AddSkinControl("STYLES", "DotNetNuke.StylesSkinObject", "Admin/Skins/Styles.ascx");
         }
 
-        private static void UpgradeToVersion600()
-        {
-            var hostPages = TabController.Instance.GetTabsByPortal(Null.NullInteger);
-
-            //This ensures that all host pages have a tab path.
-            //so they can be found later. (DNNPRO-17129)
-            foreach (var hostPage in hostPages.Values)
-            {
-                hostPage.TabPath = Globals.GenerateTabPath(hostPage.ParentId, hostPage.TabName);
-                TabController.Instance.UpdateTab(hostPage);
-            }
-
-            var settings = PortalController.Instance.GetCurrentPortalSettings();
-
-            if (settings != null)
-            {
-                var hostTab = TabController.Instance.GetTab(settings.SuperTabId, Null.NullInteger, false);
-                hostTab.IsVisible = false;
-                TabController.Instance.UpdateTab(hostTab);
-                foreach (var module in ModuleController.Instance.GetTabModules(settings.SuperTabId).Values)
-                {
-                    ModuleController.Instance.UpdateTabModuleSetting(module.TabModuleID, "hideadminborder", "true");
-                }
-            }
-
-            //remove timezone editor
-            int moduleDefId = GetModuleDefinition("Languages", "Languages");
-            RemoveModuleControl(moduleDefId, "TimeZone");
-
-            //6.0 requires the old TimeZone property to be marked as Deleted - Delete for Host
-            ProfilePropertyDefinition ppdHostTimeZone = ProfileController.GetPropertyDefinitionByName(Null.NullInteger, "TimeZone");
-            if (ppdHostTimeZone != null)
-            {
-                ProfileController.DeletePropertyDefinition(ppdHostTimeZone);
-            }
-
-            foreach (PortalInfo portal in PortalController.Instance.GetPortals())
-            {
-                //update timezoneinfo
-#pragma warning disable 612,618
-                TimeZoneInfo timeZoneInfo = Localization.Localization.ConvertLegacyTimeZoneOffsetToTimeZoneInfo(portal.TimeZoneOffset);
-#pragma warning restore 612,618
-                PortalController.UpdatePortalSetting(portal.PortalID, "TimeZone", timeZoneInfo.Id, false);
-
-                //6.0 requires the old TimeZone property to be marked as Deleted - Delete for Portals
-                ProfilePropertyDefinition ppdTimeZone = ProfileController.GetPropertyDefinitionByName(portal.PortalID, "TimeZone");
-                if (ppdTimeZone != null)
-                {
-                    ProfileController.DeletePropertyDefinition(ppdTimeZone);
-                }
-
-                var adminTab = TabController.Instance.GetTab(portal.AdminTabId, portal.PortalID, false);
-
-                adminTab.IsVisible = false;
-                TabController.Instance.UpdateTab(adminTab);
-
-                foreach (var module in ModuleController.Instance.GetTabModules(portal.AdminTabId).Values)
-                {
-                    ModuleController.Instance.UpdateTabModuleSetting(module.TabModuleID, "hideadminborder", "true");
-                }
-            }
-
-            //Ensure that Display Beta Notice setting is present
-            var displayBetaNotice = Host.DisplayBetaNotice;
-            HostController.Instance.Update("DisplayBetaNotice", displayBetaNotice ? "Y" : "N");
-
-            moduleDefId = GetModuleDefinition("Languages", "Languages");
-            AddModuleControl(moduleDefId, "EnableContent", "Enable Localized Content", "DesktopModules/Admin/Languages/EnableLocalizedContent.ascx", "", SecurityAccessLevel.Host, 0, null, false);
-
-            AddDefaultModuleIcons();
-
-            AddIconToAllowedFiles();
-
-            FavIconsToPortalSettings();
-
-            var tab = TabController.Instance.GetTabByName("Host", Null.NullInteger, Null.NullInteger);
-
-            if (tab != null)
-            {
-                RemoveModule("Extensions", "Module Definitions", tab.TabID, true);
-                RemoveModule("Marketplace", "Marketplace", tab.TabID, true);
-            }
-        }
-
         private static void UpgradeToVersion601()
         {
             //List module needs to be available to Portals also
@@ -2480,21 +2396,6 @@ namespace DotNetNuke.Services.Upgrade
                 }
             }
         }
-
-        private static void UpgradeToVersion623()
-        {
-#pragma warning disable 618
-            if (Host.jQueryUrl == "http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js")
-            {
-                HostController.Instance.Update("jQueryUrl", jQuery.DefaultHostedUrl);
-            }
-
-            if (Host.jQueryUIUrl == "http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js")
-            {
-                HostController.Instance.Update("jQueryUIUrl", jQuery.DefaultUIHostedUrl);
-			}
-#pragma warning restore 618
-		}
 
         private static void UpgradeToVersion624()
         {
@@ -2896,28 +2797,6 @@ namespace DotNetNuke.Services.Upgrade
             MakeModulePremium(@"ProfessionalPreview");
         }
 
-        private static void UpgradeToVersion730()
-        {
-#pragma warning disable 612,618
-            if (jQuery.UseHostedScript)
-            {
-                HostController.Instance.Update("CDNEnabled","True",true);
-
-                var jquery = JavaScriptLibraryController.Instance.GetLibrary(l => l.LibraryName == CommonJs.jQuery);
-                jquery.CDNPath = jQuery.HostedUrl;
-                JavaScriptLibraryController.Instance.SaveLibrary(jquery);
-
-                var jqueryui = JavaScriptLibraryController.Instance.GetLibrary(l => l.LibraryName == CommonJs.jQueryUI);
-                jqueryui.CDNPath = jQuery.HostedUIUrl;
-                JavaScriptLibraryController.Instance.SaveLibrary(jqueryui);
-
-                var jquerymigrate = JavaScriptLibraryController.Instance.GetLibrary(l => l.LibraryName == CommonJs.jQueryMigrate);
-                jquerymigrate.CDNPath = jQuery.HostedMigrateUrl;
-                JavaScriptLibraryController.Instance.SaveLibrary(jquerymigrate);
-            }
-#pragma warning restore 612,618
-        }
-
         private static void UpgradeToVersion732()
         {
             //Register System referenced 3rd party assemblies.
@@ -3207,6 +3086,8 @@ namespace DotNetNuke.Services.Upgrade
 
         private static void UninstallPackage(string packageName, string packageType, bool deleteFiles = true, string version = "")
         {
+	    DnnInstallLogger.InstallLogInfo(string.Concat(Localization.Localization.GetString("LogStart", Localization.Localization.GlobalResourceFile), "Uninstallation of Package:", packageName, " Type:", packageType, " Version:", version));
+	    
             var searchInput = PackageController.Instance.GetExtensionPackage(Null.NullInteger, p => 
                 p.Name.Equals(packageName, StringComparison.OrdinalIgnoreCase) 
                 && p.PackageType.Equals(packageType, StringComparison.OrdinalIgnoreCase)
@@ -3790,6 +3671,7 @@ namespace DotNetNuke.Services.Upgrade
                 }
             }
         }
+        
         /// -----------------------------------------------------------------------------
         /// <summary>
         ///   AddPortal manages the Installation of a new DotNetNuke Portal
@@ -3797,7 +3679,7 @@ namespace DotNetNuke.Services.Upgrade
         /// <remarks>
         /// </remarks>
         /// -----------------------------------------------------------------------------
-        public static int AddPortal(XmlNode node, bool status, int indent)
+        public static int AddPortal(XmlNode node, bool status, int indent, UserInfo superUser = null)
         {
 
             int portalId = -1;
@@ -3867,7 +3749,8 @@ namespace DotNetNuke.Services.Upgrade
                     }
 
                     var template = FindBestTemplate(templateFileName);
-                    var userInfo = CreateUserInfo(firstName, lastName, username, password, email);
+                    var userInfo = superUser ?? CreateUserInfo(firstName, lastName, username, password, email);
+
 
                     //Create Portal
                     portalId = PortalController.Instance.CreatePortal(portalName,
@@ -3926,6 +3809,19 @@ namespace DotNetNuke.Services.Upgrade
                 portalId = -1;
             }
             return portalId;
+        }
+
+        /// -----------------------------------------------------------------------------
+        /// <summary>
+        ///   Obsolete, AddPortal manages the Installation of a new DotNetNuke Portal
+        /// </summary>
+        /// <remarks>
+        /// </remarks>
+        /// -----------------------------------------------------------------------------
+        [Obsolete("Deprecated in DNN 9.3.0, will be removed in 11.0.0. Use the overloaded method with the 'superUser' parameter instead. Scheduled removal in v11.0.0.")]
+        public static int AddPortal(XmlNode node, bool status, int indent)
+        {
+            return AddPortal(node, status, indent, null);
         }
 
         internal static UserInfo CreateUserInfo(string firstName, string lastName, string userName, string password, string email)
@@ -4700,6 +4596,7 @@ namespace DotNetNuke.Services.Upgrade
                     // parse SuperUser if Available
                     UserInfo superUser = GetSuperUser(xmlDoc, true);
                     UserController.CreateUser(ref superUser);
+                    superUsers.Add(superUser);
                 }
 
                 // parse File List if available
@@ -4753,7 +4650,8 @@ namespace DotNetNuke.Services.Upgrade
                                 HttpContext.Current.Items.Add("InstallFromWizard", true);
                             }
 
-                            int portalId = AddPortal(node, true, 2);
+                            var portalHost = superUsers[0] as UserInfo;
+                            int portalId = AddPortal(node, true, 2, portalHost);
                             if (portalId > -1)
                             {
                                 HtmlUtils.WriteFeedback(HttpContext.Current.Response, 2, "<font color='green'>Successfully Installed Site " + portalId + ":</font><br>");
@@ -4901,7 +4799,7 @@ namespace DotNetNuke.Services.Upgrade
         /// <returns></returns>
         public static IDictionary<string, PackageInfo> GetInstallPackages()
         {
-            var packageTypes = new string[] { "Module", "Skin", "Container", "JavaScriptLibrary", "Language", "Provider", "AuthSystem", "Package" };
+            var packageTypes = new string[] { "Library", "Module", "Skin", "Container", "JavaScriptLibrary", "Language", "Provider", "AuthSystem", "Package" };
             var invalidPackages = new List<string>();
 
             var packages = new Dictionary<string, PackageInfo>();
@@ -4953,8 +4851,9 @@ namespace DotNetNuke.Services.Upgrade
 
                 var files = Directory.GetFiles(installPackagePath);
                 if (files.Length <= 0){ continue;}
+                Array.Sort(files); // The order of the returned file names is not guaranteed on certain NAS systems; use the Sort method if a specific sort order is required.
 
-	            var optionalPackages = new List<string>();
+                var optionalPackages = new List<string>();
                 foreach (var file in files)
                 {
 	                var extension = Path.GetExtension(file.ToLowerInvariant());
@@ -5286,9 +5185,7 @@ namespace DotNetNuke.Services.Upgrade
                         case "5.6.2":
                             UpgradeToVersion562();
                             break;
-                        case "6.0.0":
-                            UpgradeToVersion600();
-                            break;
+
                         case "6.0.1":
                             UpgradeToVersion601();
                             break;
@@ -5309,9 +5206,6 @@ namespace DotNetNuke.Services.Upgrade
                             break;
                         case "6.2.1":
                             UpgradeToVersion621();
-                            break;
-                        case "6.2.3":
-                            UpgradeToVersion623();
                             break;
                         case "6.2.4":
                             UpgradeToVersion624();
@@ -5337,9 +5231,6 @@ namespace DotNetNuke.Services.Upgrade
                         case "7.2.2":
                             UpgradeToVersion722();
                             break;
-                        case "7.3.0":
-                            UpgradeToVersion730();
-                            break;
                         case "7.3.2":
                             UpgradeToVersion732();
                             break;
@@ -5363,6 +5254,9 @@ namespace DotNetNuke.Services.Upgrade
                             break;
                         case "9.3.0":
                             UpgradeToVersion930();
+                            break;
+                        case "9.4.1":
+                            UpgradeToVersion941();
                             break;
                     }
                 }
@@ -5625,6 +5519,76 @@ namespace DotNetNuke.Services.Upgrade
             }
         }
 
+        private static void UpgradeToVersion941()
+        {
+            // It's possible previous versions of DNN created invalid binding redirects with <dependentAssembly xmlns="">, which are ignored
+            // This finds these and removes them, adding a correct binding redirect if one doesn't exist
+            var webConfig = Config.Load();
+            
+            var ns = new XmlNamespaceManager(webConfig.NameTable);
+            ns.AddNamespace("ab", "urn:schemas-microsoft-com:asm.v1");
+
+            var invalidDependentAssemblies = webConfig.SelectNodes("/configuration/runtime/ab:assemblyBinding/dependentAssembly", ns);
+            foreach (XmlNode dependentAssembly in invalidDependentAssemblies)
+            {
+                var assemblyBindingElement = dependentAssembly.ParentNode;
+                var assemblyIdentity = dependentAssembly.ChildNodes.Cast<XmlNode>().SingleOrDefault(n => n.LocalName.Equals("assemblyIdentity", StringComparison.Ordinal));
+                if (assemblyIdentity == null)
+                {
+                    assemblyBindingElement.RemoveChild(dependentAssembly);
+                    continue;
+                }
+
+                var name = assemblyIdentity.Attributes["name"]?.Value;
+                var publicKeyToken = assemblyIdentity.Attributes["publicKeyToken"]?.Value;
+                if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(publicKeyToken))
+                {
+                    assemblyBindingElement.RemoveChild(dependentAssembly);
+                    continue;
+                }
+
+                var dependentAssemblyXPath = $"/configuration/runtime/ab:assemblyBinding/ab:dependentAssembly[ab:assemblyIdentity/@name='{name}'][ab:assemblyIdentity/@publicKeyToken='{publicKeyToken}']";
+                var validDependentAssembly = webConfig.SelectSingleNode(dependentAssemblyXPath, ns);
+                if (validDependentAssembly != null)
+                {
+                    // a valid dependentAssembly exists for this assembly, just remove the invalid element
+                    assemblyBindingElement.RemoveChild(dependentAssembly);
+                    continue;
+                }
+
+                // otherwise, replace the invalid dependentAssembly with a valid version of it
+                AssemblyName assemblyName;
+                try
+                {
+                    assemblyName = AssemblyName.GetAssemblyName(Path.Combine(Globals.ApplicationMapPath, "bin", name + ".dll"));
+                }
+                catch
+                {
+                    assemblyBindingElement.RemoveChild(dependentAssembly);
+                    continue;
+                }
+
+                var validAssemblyIdentity = webConfig.CreateElement("assemblyIdentity", "urn:schemas-microsoft-com:asm.v1");
+                validAssemblyIdentity.AddAttribute("name", name);
+                validAssemblyIdentity.AddAttribute("publicKeyToken", publicKeyToken);
+
+                var validBindingRedirect = webConfig.CreateElement("bindingRedirect", "urn:schemas-microsoft-com:asm.v1");
+                validBindingRedirect.AddAttribute("oldVersion", "0.0.0.0-32767.32767.32767.32767");
+                validBindingRedirect.AddAttribute("newVersion", assemblyName.Version.ToString());
+
+                validDependentAssembly = webConfig.CreateElement("dependentAssembly", "urn:schemas-microsoft-com:asm.v1");
+                validDependentAssembly.AppendChild(validAssemblyIdentity);
+                validDependentAssembly.AppendChild(validBindingRedirect);
+
+                assemblyBindingElement.ReplaceChild(validDependentAssembly, dependentAssembly);
+            }
+
+            if (invalidDependentAssemblies.Count > 0)
+            {
+                Config.Save(webConfig);
+            }
+        }
+
         public static string UpdateConfig(string providerPath, Version version, bool writeFeedback)
         {
             var stringVersion = GetStringVersionWithRevision(version);
@@ -5784,6 +5748,7 @@ namespace DotNetNuke.Services.Upgrade
                 //execute config file updates
                 UpdateConfig(providerPath, ver, true);
             }
+            DataProvider.Instance().SetCorePackageVersions();
 
             // perform general application upgrades
             HtmlUtils.WriteFeedback(HttpContext.Current.Response, 0, "Performing General Upgrades<br>");

@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -51,6 +51,7 @@ using DotNetNuke.Services.Url.FriendlyUrl;
 using DotNetNuke.Instrumentation;
 using DotNetNuke.Security.Cookies;
 using DotNetNuke.Services.Installer.Blocker;
+using Microsoft.Extensions.DependencyInjection;
 
 #endregion
 
@@ -82,6 +83,9 @@ namespace DotNetNuke.Web.Common.Internal
             var name = Config.GetSetting("ServerName");
             Globals.ServerName = String.IsNullOrEmpty(name) ? Dns.GetHostName() : name;
 
+            var startup = new Startup();
+            Globals.DependencyProvider = startup.DependencyProvider;
+
             ComponentFactory.Container = new SimpleContainer();
 
             ComponentFactory.InstallComponents(new ProviderInstaller("databaseConnection", typeof(DatabaseConnectionProvider), typeof(SqlDatabaseConnectionProvider)));
@@ -90,9 +94,6 @@ namespace DotNetNuke.Web.Common.Internal
             ComponentFactory.InstallComponents(new ProviderInstaller("logging", typeof(LoggingProvider), typeof(DBLoggingProvider)));
             ComponentFactory.InstallComponents(new ProviderInstaller("scheduling", typeof(SchedulingProvider), typeof(DNNScheduler)));
             ComponentFactory.InstallComponents(new ProviderInstaller("searchIndex", typeof(IndexingProvider), typeof(ModuleIndexer)));
-            #pragma warning disable 0618
-            ComponentFactory.InstallComponents(new ProviderInstaller("searchDataStore", typeof(SearchDataStoreProvider), typeof(SearchDataStore)));
-            #pragma warning restore 0618
             ComponentFactory.InstallComponents(new ProviderInstaller("members", typeof(MembershipProvider), typeof(AspNetMembershipProvider)));
             ComponentFactory.InstallComponents(new ProviderInstaller("roles", typeof(RoleProvider), typeof(DNNRoleProvider)));
             ComponentFactory.InstallComponents(new ProviderInstaller("profiles", typeof(ProfileProvider), typeof(DNNProfileProvider)));
@@ -243,6 +244,5 @@ namespace DotNetNuke.Web.Common.Internal
                    || url.Contains("installwizard.aspx")
                    || url.EndsWith("install.aspx");
         }
-
     }
 }

@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -579,7 +579,8 @@ namespace DotNetNuke.Entities.Host
         /// <remarks>
         ///   Defaults to False
         /// </remarks>
-        /// -----------------------------------------------------------------------------
+        /// ----------------------------------------------------------------------------- 
+        [Obsolete("Support for users online was removed in 8.x, other solutions exist outside of the DNN Platform.  Scheduled removal in v11.0.0.")]
         public static bool EnableUsersOnline
         {
             get
@@ -1223,7 +1224,7 @@ namespace DotNetNuke.Entities.Host
         ///   Defaults to 1
         /// </remarks>
         /// -----------------------------------------------------------------------------
-        [Obsolete("Deprecated in 8.0.0")]
+        [Obsolete("Deprecated in 8.0.0. Scheduled removal in v11.0.0.")]
         public static int SiteLogBuffer
         {
             get
@@ -1240,7 +1241,7 @@ namespace DotNetNuke.Entities.Host
         ///   Defaults to -1
         /// </remarks>
         /// -----------------------------------------------------------------------------
-        [Obsolete("Deprecated in 8.0.0")]
+        [Obsolete("Deprecated in 8.0.0. Scheduled removal in v11.0.0.")]
         public static int SiteLogHistory
         {
             get
@@ -1257,7 +1258,7 @@ namespace DotNetNuke.Entities.Host
         ///   Defaults to "D"
         /// </remarks>
         /// -----------------------------------------------------------------------------
-        [Obsolete("Deprecated in 8.0.0")]
+        [Obsolete("Deprecated in 8.0.0. Scheduled removal in v11.0.0.")]
         public static string SiteLogStorage
         {
             get
@@ -1492,6 +1493,7 @@ namespace DotNetNuke.Entities.Host
         ///   Defaults to 15
         /// </remarks>
         /// -----------------------------------------------------------------------------
+        [Obsolete("Support for users online was removed in 8.x, other solutions exist outside of the DNN Platform.  Scheduled removal in v11.0.0.")]
         public static int UsersOnlineTimeWindow
         {
             get
@@ -1516,104 +1518,7 @@ namespace DotNetNuke.Entities.Host
             }
         }
 
-        /// <summary>
-        ///   Gets whether to use the minified or debug version of the jQuery scripts
-        /// </summary>
-        /// <remarks>
-        ///   Defaults to False
-        /// </remarks>
-        [Obsolete("This is managed through the JavaScript Library package")]
-        public static bool jQueryDebug
-        {
-            get
-            {
-                return HostController.Instance.GetBoolean("jQueryDebug", false);
-            }
-        }
 
-        /// <summary>
-        ///   Gets whether to use a hosted version of the jQuery script file
-        /// </summary>
-        /// <remarks>
-        ///   Defaults to False
-        /// </remarks>
-        [Obsolete("This is managed through the JavaScript Library package")]
-        public static bool jQueryHosted
-        {
-            get
-            {
-                return HostController.Instance.GetBoolean("jQueryHosted", false);
-            }
-        }
-
-        /// <summary>
-        ///   Gets the Url for a hosted version of jQuery
-        /// </summary>
-        /// <remarks>
-        ///   Defaults to the DefaultHostedUrl constant in the jQuery class.
-        ///   The framework will default to the latest released 1.x version hosted on Google.
-        /// </remarks>
-        [Obsolete("This is managed through the JavaScript Library package")]
-        public static string jQueryUrl
-        {
-            get
-            {
-                if (HttpContext.Current.Request.IsSecureConnection)
-                {
-                    return HostController.Instance.GetString("jQueryUrl", jQuery.DefaultHostedUrl).Replace("http://", "https://");
-                }
-                else
-                {
-                    return HostController.Instance.GetString("jQueryUrl", jQuery.DefaultHostedUrl);
-                }
-            }
-        }
-
-		/// <summary>
-		///   Gets the Url for a hosted version of jQuery Migrate plugin.
-		/// </summary>
-		/// <remarks>
-		///   Defaults to the DefaultHostedUrl constant in the jQuery class.
-		///   The framework will default to the latest released 1.x version hosted on Google.
-		/// </remarks>
-		[Obsolete("This is managed through the JavaScript Library package")]
-		public static string jQueryMigrateUrl
-		{
-			get
-			{
-				if (HttpContext.Current.Request.IsSecureConnection)
-				{
-					return HostController.Instance.GetString("jQueryMigrateUrl", string.Empty).Replace("http://", "https://");
-				}
-				else
-				{
-					return HostController.Instance.GetString("jQueryMigrateUrl", string.Empty);
-				}
-			}
-		}
-
-        /// <summary>
-        ///   Gets the Url for a hosted version of jQuery UI
-        /// </summary>
-        /// <remarks>
-        ///   Defaults to the DefaultUIHostedUrl constant in the jQuery class.
-        ///   The framework will default to the latest released 1.x version hosted on Google.
-        /// </remarks>
-        [Obsolete("This is managed through the JavaScript Library package")]
-        public static string jQueryUIUrl
-        {
-            get
-            {
-                if (HttpContext.Current.Request.IsSecureConnection)
-                {
-                    return HostController.Instance.GetString("jQueryUIUrl", jQuery.DefaultUIHostedUrl).Replace("http://", "https://");
-                }
-                else
-                {
-                    return HostController.Instance.GetString("jQueryUIUrl", jQuery.DefaultUIHostedUrl);
-                }
-            }
-        }
 
 		/// <summary>
 		///   Gets whether to use a hosted version of the MS Ajax Library
@@ -1629,46 +1534,7 @@ namespace DotNetNuke.Entities.Host
 		    }
 	    }
 
-		/// <summary>
-		///   Gets whether to use a hosted version of the Telerik Library
-		/// </summary>
-		/// <remarks>
-		///   Defaults to False
-		/// </remarks>
-		[Obsolete("Not used anymore")]
-		public static bool EnableTelerikCdn
-		{
-			get
-			{
-				return HostController.Instance.GetBoolean("EnableTelerikCDN", false);
-			}
-		}
-
         /// <summary>
-        /// Get Telerik CDN Basic Path.
-        /// </summary>
-        [Obsolete("Not used anymore")]
-        public static string TelerikCdnBasicUrl
-	    {
-			get
-			{
-				return HostController.Instance.GetString("TelerikCDNBasicUrl");
-			}
-	    }
-
-        /// <summary>
-        /// Get Telerik CDN Secure Path.
-        /// </summary>
-        [Obsolete("Not used anymore")]
-        public static string TelerikCdnSecureUrl
-		{
-			get
-			{
-				return HostController.Instance.GetString("TelerikCDNSecureUrl");
-			}
-		}
-
-		/// <summary>
 		/// Get the time, in seconds, before asynchronous postbacks time out if no response is received.
 		/// </summary>
 		public static int AsyncTimeout

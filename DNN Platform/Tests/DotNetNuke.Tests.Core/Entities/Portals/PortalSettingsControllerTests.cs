@@ -1,6 +1,6 @@
 ﻿#region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -229,6 +229,8 @@ namespace DotNetNuke.Tests.Core.Entities.Portals
             Assert.AreEqual(portal.Currency, settings.Currency);
             Assert.AreEqual(portal.Custom404TabId, settings.ErrorPage404);
             Assert.AreEqual(portal.Custom500TabId, settings.ErrorPage500);
+            Assert.AreEqual(portal.TermsTabId, settings.TermsTabId);
+            Assert.AreEqual(portal.PrivacyTabId, settings.PrivacyTabId);
             Assert.AreEqual(portal.DefaultLanguage, settings.DefaultLanguage);
             Assert.AreEqual(portal.Description, settings.Description);
             Assert.AreEqual(portal.Email, settings.Email);

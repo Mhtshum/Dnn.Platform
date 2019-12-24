@@ -1,7 +1,7 @@
 ﻿#region Copyright
 
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -35,7 +35,7 @@ using log4net.Config;
 
 namespace DotNetNuke.Instrumentation
 {
-    [Obsolete("Deprecated in 7.0.1 due to poor performance, use LoggerSource.Instance")]
+    [Obsolete("Deprecated in 7.0.1 due to poor performance, use LoggerSource.Instance. Scheduled removal in v11.0.0.")]
     public static class DnnLog
     {
         private const string ConfigFile = "DotNetNuke.log4net.config";

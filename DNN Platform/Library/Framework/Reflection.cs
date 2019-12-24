@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -361,7 +361,7 @@ namespace DotNetNuke.Framework
         }
 
         //dynamically create a default Provider from a ProviderType - this method was used by the CachingProvider to avoid a circular dependency
-        [Obsolete("This method has been deprecated. Please use CreateObject(ByVal ObjectProviderType As String, ByVal UseCache As Boolean) As Object")]
+        [Obsolete("This method has been deprecated. Please use CreateObject(ByVal ObjectProviderType As String, ByVal UseCache As Boolean) As Object. Scheduled removal in v11.0.0.")]
         internal static object CreateObjectNotCached(string ObjectProviderType)
         {
             string TypeName = "";

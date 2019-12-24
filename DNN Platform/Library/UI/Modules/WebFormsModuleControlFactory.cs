@@ -1,4 +1,4 @@
-﻿// DotNetNuke® - http://www.dotnetnuke.com
+﻿// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -23,19 +23,19 @@ using DotNetNuke.Entities.Modules;
 
 namespace DotNetNuke.UI.Modules
 {
-    public class WebFormsModuleControlFactory : IModuleControlFactory
+    public class WebFormsModuleControlFactory : BaseModuleControlFactory
     {
-        public Control CreateControl(TemplateControl containerControl, string controlKey, string controlSrc)
+        public override Control CreateControl(TemplateControl containerControl, string controlKey, string controlSrc)
         {
             return ControlUtilities.LoadControl<Control>(containerControl, controlSrc);
         }
 
-        public Control CreateModuleControl(TemplateControl containerControl, ModuleInfo moduleConfiguration)
+        public override Control CreateModuleControl(TemplateControl containerControl, ModuleInfo moduleConfiguration)
         {
             return CreateControl(containerControl, String.Empty, moduleConfiguration.ModuleControl.ControlSrc);
         }
 
-        public Control CreateSettingsControl(TemplateControl containerControl, ModuleInfo moduleConfiguration, string controlSrc)
+        public override Control CreateSettingsControl(TemplateControl containerControl, ModuleInfo moduleConfiguration, string controlSrc)
         {
             return CreateControl(containerControl, String.Empty, controlSrc);
         }

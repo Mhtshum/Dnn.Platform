@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -174,8 +174,8 @@ namespace DotNetNuke.Services.Personalization
         private static string GetDecryptionkey()
         {
             var machineKey = Config.GetDecryptionkey();
-            var hostGuid = Host.GUID.Replace("-", string.Empty);
-            return (machineKey ?? "") + hostGuid;
+            var key = $"{machineKey ?? ""}{Host.GUID.Replace("-", string.Empty)}";
+            return FIPSCompliant.EncryptAES(key, key, Host.GUID);
         }
     }
 }

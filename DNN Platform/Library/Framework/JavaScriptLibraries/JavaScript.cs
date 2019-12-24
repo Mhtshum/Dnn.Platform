@@ -1,7 +1,7 @@
 ﻿#region Copyright
 
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -87,7 +87,7 @@ namespace DotNetNuke.Framework.JavaScriptLibraries
         /// <returns></returns>
         public static string Version(String jsname)
         {
-            JavaScriptLibrary library = JavaScriptLibraryController.Instance.GetLibrary(l => l.LibraryName.Equals(jsname, StringComparison.OrdinalIgnoreCase));
+            JavaScriptLibrary library = GetHighestVersionLibrary(jsname);
             return library != null ? Convert.ToString(library.Version) : String.Empty;
         }
 
@@ -407,7 +407,7 @@ namespace DotNetNuke.Framework.JavaScriptLibraries
                 return;
             }
 
-            ClientResourceManager.RegisterScript(page, GetScriptPath(jsl), GetFileOrder(jsl), GetScriptLocation(jsl));
+            ClientResourceManager.RegisterScript(page, GetScriptPath(jsl), GetFileOrder(jsl), GetScriptLocation(jsl), jsl.LibraryName, jsl.Version.ToString(3));
 
             //workaround to support IE specific script until we move to IE version that no longer requires this
             if (jsl.LibraryName == CommonJs.jQueryFileUpload)
@@ -474,37 +474,6 @@ namespace DotNetNuke.Framework.JavaScriptLibraries
             {
                 switch (legacyScript)
                 {
-                    case CommonJs.jQuery:
-                        if (GetHighestVersionLibrary(CommonJs.jQuery) == null)
-                        {
-                            ClientResourceManager.RegisterScript(page, jQuery.GetJQueryScriptReference(),
-                                FileOrder.Js.jQuery, "DnnPageHeaderProvider");
-                        }
-                        if (GetHighestVersionLibrary(CommonJs.jQueryMigrate) == null)
-                        {
-                            ClientResourceManager.RegisterScript(page, jQuery.GetJQueryMigrateScriptReference(),
-                                FileOrder.Js.jQueryMigrate, "DnnPageHeaderProvider");
-                        }
-                        break;
-                    case CommonJs.jQueryUI:
-                        //register dependency
-                        if (GetHighestVersionLibrary(CommonJs.jQuery) == null)
-                        {
-                            ClientResourceManager.RegisterScript(page, jQuery.GetJQueryScriptReference(),
-                                FileOrder.Js.jQuery, "DnnPageHeaderProvider");
-                        }
-                        if (GetHighestVersionLibrary(CommonJs.jQueryMigrate) == null)
-                        {
-                            ClientResourceManager.RegisterScript(page, jQuery.GetJQueryMigrateScriptReference(),
-                                FileOrder.Js.jQueryMigrate, "DnnPageHeaderProvider");
-                        }
-                        //actual jqueryui
-                        if (GetHighestVersionLibrary(CommonJs.jQueryUI) == null)
-                        {
-                            ClientResourceManager.RegisterScript(page, jQuery.GetJQueryUIScriptReference(),
-                                FileOrder.Js.jQueryUI, "DnnPageHeaderProvider");
-                        }
-                        break;
                     case CommonJs.DnnPlugins:
                         //This method maybe called when Page.Form hasn't initialized yet, in that situation if needed should reference dnn js manually.
                         //such as call jQuery.RegisterDnnJQueryPlugins in Control.OnInit.
@@ -514,27 +483,6 @@ namespace DotNetNuke.Framework.JavaScriptLibraries
                         }
 
                         //register dependency
-
-                        if (GetHighestVersionLibrary(CommonJs.jQuery) == null)
-                        {
-                            ClientResourceManager.RegisterScript(page, jQuery.GetJQueryScriptReference(),
-                                FileOrder.Js.jQuery, "DnnPageHeaderProvider");
-                        }
-
-                        if (GetHighestVersionLibrary(CommonJs.jQueryMigrate) == null)
-                        {
-                            ClientResourceManager.RegisterScript(page, jQuery.GetJQueryMigrateScriptReference(),
-                                FileOrder.Js.jQueryMigrate, "DnnPageHeaderProvider");
-                        }
-
-
-                        //actual jqueryui
-                        if (GetHighestVersionLibrary(CommonJs.jQueryUI) == null)
-                        {
-                            ClientResourceManager.RegisterScript(page, jQuery.GetJQueryUIScriptReference(),
-                                FileOrder.Js.jQueryUI, "DnnPageHeaderProvider");
-                        }
-
                         if (GetHighestVersionLibrary(CommonJs.HoverIntent) == null)
                         {
                             ClientResourceManager.RegisterScript(page,
@@ -578,18 +526,6 @@ namespace DotNetNuke.Framework.JavaScriptLibraries
             }
             return jfile;
         }
-
-        public static string GetJQueryScriptReference()
-        {
-#pragma warning disable 618
-            string scriptsrc = jQuery.HostedUrl;
-            if (!jQuery.UseHostedScript)
-            {
-                scriptsrc = jQuery.JQueryFile(!jQuery.UseDebugScript);
-            }
-            return scriptsrc;
-#pragma warning restore 618
-		}
 
         public static void RegisterClientReference(Page page, ClientAPI.ClientNamespaceReferences reference)
         {

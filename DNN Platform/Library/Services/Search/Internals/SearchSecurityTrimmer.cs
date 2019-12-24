@@ -1,6 +1,6 @@
 ﻿#region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -178,11 +178,13 @@ namespace DotNetNuke.Services.Search.Internals
                         continue;
                     }
 
-                    _scoreDocs.Add(scoreDoc);
-                    if (++collectedSoFar == pageSize)
+                    if (collectedSoFar >= pageSize)
                     {
-                        break;
+                        continue;
                     }
+
+                    _scoreDocs.Add(scoreDoc);
+                    ++collectedSoFar;
                 }
                 else
                 {

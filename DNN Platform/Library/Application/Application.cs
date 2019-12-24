@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -21,6 +21,7 @@
 #region Usings
 
 using System;
+using System.Diagnostics;
 using System.Reflection;
 
 using DotNetNuke.Common.Utilities;
@@ -71,7 +72,7 @@ namespace DotNetNuke.Application
         /// <summary>
         /// Gets the description of the application
         /// </summary>
-        /// <value>Fixed result: DotNetNuke Community Edition</value>
+        /// <value>Fixed result: DNN Platform</value>
         public virtual string Description
         {
             get
@@ -83,24 +84,24 @@ namespace DotNetNuke.Application
         /// <summary>
         /// Gets the help URL related to the DotNetNuke application
         /// </summary>
-        /// <value>Fixed result: http://www.dotnetnuke.com/default.aspx?tabid=787 </value>
+        /// <value>Fixed result: https://www.dnnsoftware.com/docs/ </value>
         public string HelpUrl
         {
             get
             {
-                return "http://www.dotnetnuke.com/default.aspx?tabid=787";
+                return "https://www.dnnsoftware.com/docs/";
             }
         }
 
         /// <summary>
         /// Gets the legal copyright.
         /// </summary>
-        /// <value>Dynamic: DotNetNuke® is copyright 2002-todays year by DotNetNuke Corporation"</value>
+        /// <value>Dynamic: DotNetNukeï¿½ is copyright 2002-todays year by DotNetNuke Corporation"</value>
         public string LegalCopyright
         {
             get
             {
-                return string.Concat("DotNetNuke® is copyright 2002-", DateTime.Today.ToString("yyyy")," by DotNetNuke Corporation");
+                return string.Concat("DotNetNukeï¿½ is copyright 2002-", DateTime.Today.ToString("yyyy")," by DotNetNuke Corporation");
             }
         }
 
@@ -213,12 +214,12 @@ namespace DotNetNuke.Application
         /// <summary>
         /// Gets the URL of the application
         /// </summary>
-        /// <value>Fixed value: http://www.dotnetnuke.com </value>
+        /// <value>Fixed value: https://www.dnnsoftware.com </value>
         public string Url
         {
             get
             {
-                return "http://www.dotnetnuke.com";
+                return "https://www.dnnsoftware.com";
             }
         }
 
@@ -230,7 +231,9 @@ namespace DotNetNuke.Application
         {
             get
             {
-                return Assembly.GetExecutingAssembly().GetName().Version;
+                var assemblyLocation = Assembly.GetExecutingAssembly().Location;
+                var fileVersion = FileVersionInfo.GetVersionInfo(assemblyLocation).FileVersion;
+                return new Version(fileVersion);
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿#region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -30,6 +30,18 @@ namespace DotNetNuke.Tests.Core.Collections
         internal override ILockStrategy GetLockStrategy()
         {
             return new ReaderWriterLockStrategy();
+        }
+
+        [Test] // no ExpectedException attribute
+        public override void DoubleReadLockThrows()
+        {
+            base.DoubleReadLockThrows();
+        }
+
+        [Test] // no ExpectedException attribute
+        public override void DoubleWriteLockThrows()
+        {
+            base.DoubleWriteLockThrows();
         }
     }
 }

@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -72,7 +72,6 @@ namespace DotNetNuke.Common.Utilities
             string strToday = ClientAPI.GetSafeJSString(Localization.GetString("Today"));
             string strClose = ClientAPI.GetSafeJSString(Localization.GetString("Close"));
             string strCalendar = ClientAPI.GetSafeJSString(Localization.GetString("Calendar"));
-            //TODO: Consider changing to StringBuilder with constant for the separator
             return string.Concat("javascript:popupCal('Cal','", Field.ClientID, "','", FormatString, "','",
                 MonthNameString, "','", DayNameString, "','", strToday, "','", strClose, "','", strCalendar, "',",
                 (int) DateTimeFormatInfo.CurrentInfo.FirstDayOfWeek, ");");

@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -181,13 +181,15 @@ namespace DotNetNuke.Security.Permissions
 
         public void Remove(int permissionID, int roleID, int userID)
         {
+            var idx = 0;
             foreach (PermissionInfoBase permission in List)
             {
                 if (permission.PermissionID == permissionID && permission.UserID == userID && permission.RoleID == roleID)
                 {
-                    List.Remove(permission);
+                    List.RemoveAt(idx);
                     break;
                 }
+                idx++;
             }
         }
 

@@ -1,7 +1,7 @@
 #region Copyright
 
 // 
-// DotNetNuke� - http://www.dotnetnuke.com
+// DotNetNuke� - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -207,7 +207,7 @@ namespace DotNetNuke.Entities.Tabs
             return tab.TabID;
         }
 
-        private void CreateLocalizedCopyInternal(TabInfo originalTab, Locale locale, bool allTabsModulesFromDefault, bool clearCache)
+        private void CreateLocalizedCopyInternal(TabInfo originalTab, Locale locale, bool allTabsModulesFromDefault, bool clearCache, bool insertAfterOriginal = false)
         {
 			try
 			{
@@ -268,7 +268,10 @@ namespace DotNetNuke.Entities.Tabs
                 }
 
                 //Save Tab
-                AddTabInternal(localizedCopy, -1, -1, false); //not include modules show on all page, it will handled in copy modules action.
+                var afterTabId = insertAfterOriginal ? originalTab.TabID : -1;
+                const int beforeTabId = -1;
+                const bool includeAllModules = false;
+                AddTabInternal(localizedCopy, afterTabId, beforeTabId, includeAllModules); //not include modules show on all page, it will handled in copy modules action.
 
 				//if the tab has custom stylesheet defined, then also copy the stylesheet to the localized version.
 				if (originalTab.TabSettings.ContainsKey("CustomStylesheet"))
@@ -907,7 +910,7 @@ namespace DotNetNuke.Entities.Tabs
                     // we are adding missing languages to a single culture page that is not in the default language
                     // so we must first add a page in the default culture
 
-                    CreateLocalizedCopyInternal(workingTab, defaultLocale, false, true);
+                    CreateLocalizedCopyInternal(workingTab, defaultLocale, false, true, insertAfterOriginal: true);
                 }
 
                 if (currentTab.DefaultLanguageTab != null)
@@ -926,7 +929,7 @@ namespace DotNetNuke.Entities.Tabs
                         }
                         if (missing)
                         {
-                            CreateLocalizedCopyInternal(workingTab, locale, false, true);
+                            CreateLocalizedCopyInternal(workingTab, locale, false, true, insertAfterOriginal: true);
                         }
                     }
                 }
@@ -2470,7 +2473,8 @@ namespace DotNetNuke.Entities.Tabs
                                  false,
                                  false,
                                  false,
-                                 false);
+                                 false,
+                                 true);
         }
 
         /// <summary>
@@ -2494,7 +2498,8 @@ namespace DotNetNuke.Entities.Tabs
                                  includeDeleted,
                                  includeURL,
                                  false,
-                                 false);
+                                 false,
+                                 true);
         }
 
         /// <summary>
@@ -2522,7 +2527,8 @@ namespace DotNetNuke.Entities.Tabs
                                  includeDeleted,
                                  includeURL,
                                  checkViewPermisison,
-                                 checkEditPermission);
+                                 checkEditPermission,
+                                 true);
         }
 
         /// <summary>
@@ -2541,6 +2547,45 @@ namespace DotNetNuke.Entities.Tabs
         public static List<TabInfo> GetPortalTabs(List<TabInfo> tabs, int excludeTabId, bool includeNoneSpecified,
                                                   string noneSpecifiedText, bool includeHidden, bool includeDeleted, bool includeURL,
                                                   bool checkViewPermisison, bool checkEditPermission)
+        {
+            return GetPortalTabs(
+                tabs,
+                excludeTabId,
+                includeNoneSpecified,
+                noneSpecifiedText,
+                includeHidden,
+                includeDeleted,
+                includeURL,
+                checkViewPermisison,
+                checkEditPermission,
+                true);
+        }
+
+        /// <summary>
+        /// Gets the portal tabs.
+        /// </summary>
+        /// <param name="tabs">The tabs.</param>
+        /// <param name="excludeTabId">The exclude tab id.</param>
+        /// <param name="includeNoneSpecified">if set to <c>true</c> [include none specified].</param>
+        /// <param name="noneSpecifiedText">The none specified text.</param>
+        /// <param name="includeHidden">if set to <c>true</c> [include hidden].</param>
+        /// <param name="includeDeleted">if set to <c>true</c> [include deleted].</param>
+        /// <param name="includeURL">if set to <c>true</c> [include URL].</param>
+        /// <param name="checkViewPermisison">if set to <c>true</c> [check view permisison].</param>
+        /// <param name="checkEditPermission">if set to <c>true</c> [check edit permission].</param>
+        /// <param name="includeDeletedChildren">The value of this parameter affects <see cref="TabInfo.HasChildren"></see> property.</param>
+        /// <returns></returns>
+        public static List<TabInfo> GetPortalTabs(
+            List<TabInfo> tabs,
+            int excludeTabId,
+            bool includeNoneSpecified,
+            string noneSpecifiedText,
+            bool includeHidden,
+            bool includeDeleted,
+            bool includeURL,
+            bool checkViewPermisison,
+            bool checkEditPermission,
+            bool includeDeletedChildren)
         {
             var listTabs = new List<TabInfo>();
             if (includeNoneSpecified)
@@ -2577,6 +2622,9 @@ namespace DotNetNuke.Entities.Tabs
                             listTabs.Add(tab);
                         }
                     }
+
+                    // HasChildren should be true in case there is at least one not deleted child
+                    tab.HasChildren = tab.HasChildren && (includeDeletedChildren || GetTabsByParent(tab.TabID, tab.PortalID).Any(a => !a.IsDeleted));
                 }
             }
             return listTabs;
@@ -2865,6 +2913,18 @@ namespace DotNetNuke.Entities.Tabs
                 {
                     newnode = tabXml.CreateElement("tabtype");
                     newnode.InnerXml = "500tab";
+                    tabNode.AppendChild(newnode);
+                }
+                else if (tab.TabID == portal.TermsTabId)
+                {
+                    newnode = tabXml.CreateElement("tabtype");
+                    newnode.InnerXml = "termstab";
+                    tabNode.AppendChild(newnode);
+                }
+                else if (tab.TabID == portal.PrivacyTabId)
+                {
+                    newnode = tabXml.CreateElement("tabtype");
+                    newnode.InnerXml = "privacytab";
                     tabNode.AppendChild(newnode);
                 }
             }

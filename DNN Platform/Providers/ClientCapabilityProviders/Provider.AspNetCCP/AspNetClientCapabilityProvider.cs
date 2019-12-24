@@ -1,6 +1,6 @@
 #region Copyright
 //
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 //
@@ -81,7 +81,7 @@ namespace DotNetNuke.Providers.AspNetClientCapabilityProvider
                         {
                             _allClientCapabilityValues = new Dictionary<string, List<string>>();
 
-                            //TODO
+                            //TODO :Implement
                             //foreach (var property in DataProvider.Properties)
                             //{
                             //    var values = property.Values.Select(value => value.Name).ToList();

@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -20,9 +20,10 @@
 #endregion
 #region Usings
 
+using System;
 using System.Collections;
 using System.ComponentModel;
-
+using DotNetNuke.Common;
 using DotNetNuke.UI.Modules;
 
 #endregion

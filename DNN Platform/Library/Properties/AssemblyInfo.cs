@@ -1,6 +1,6 @@
 #region Copyright
 //
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 //
@@ -46,11 +46,24 @@ using DotNetNuke.Application;
 // used by Moq. Paste in a single line.
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 [assembly: InternalsVisibleTo("DotNetNuke.Web")]
+[assembly: InternalsVisibleTo("DotNetNuke.Web.Mvc")]
+[assembly: InternalsVisibleTo("DotNetNuke.Web.Razor")]
 [assembly: InternalsVisibleTo("DotNetNuke.HttpModules")]
 [assembly: InternalsVisibleTo("DotNetNuke.Modules.MemberDirectory")]
 [assembly: InternalsVisibleTo("DotNetNuke.Provider.AspNetProvider")]
 [assembly: InternalsVisibleTo("DotNetNuke.Tests.Content")]
 [assembly: InternalsVisibleTo("DotNetNuke.Tests.Web")]
+[assembly: InternalsVisibleTo("DotNetNuke.Tests.Web.Mvc")]
 [assembly: InternalsVisibleTo("DotNetNuke.Tests.Urls")]
 [assembly: InternalsVisibleTo("DotNetNuke.Tests.Professional")]
 [assembly: InternalsVisibleTo("DotNetNuke.SiteExportImport")]
+[assembly: InternalsVisibleTo("DotNetNuke.Web.DDRMenu")] // Once Globals is refactored to Dependency Injection we should be able to remove this
+[assembly: InternalsVisibleTo("Dnn.PersonaBar.Extensions")] // Once Globals is refactored to Dependency Injection we should be able to remove this
+[assembly: InternalsVisibleTo("DotNetNuke.Modules.Html")] // Once Globals is refactored to Dependency Injection we should be able to remove this
+[assembly: InternalsVisibleTo("DotNetNuke.Website.Deprecated")] // Once Globals is refactored to Dependency Injection we should be able to remove this
+[assembly: InternalsVisibleTo("Dnn.PersonaBar.UI")] // Once Globals is refactored to Dependency Injection we should be able to remove this
+[assembly: InternalsVisibleTo("Dnn.PersonaBar.Library")] // Once Globals is refactored to Dependency Injection we should be able to remove this
+[assembly: InternalsVisibleTo("DotNetNuke.Modules.Groups")] // Once Globals is refactored to Dependency Injection we should be able to remove this
+[assembly: InternalsVisibleTo("DotNetNuke.Modules.Journal")] // Once Globals is refactored to Dependency Injection we should be able to remove this
+[assembly: InternalsVisibleTo("DotNetNuke.Modules.RazorHost")] // Once Globals is refactored to Dependency Injection we should be able to remove this
+[assembly: InternalsVisibleTo("DotNetNuke.Website")] // Once Globals is refactored to Dependency Injection we should be able to remove this

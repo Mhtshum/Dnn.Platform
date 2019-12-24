@@ -20,11 +20,6 @@ namespace DNN.Integration.Test.Framework.Controllers
         private const string PermissionKeyMarker = @"$[permission_key]";
         private const string FriendlyNameMarker = @"$[friendly_name]";
 
-        [Obsolete("typo in name, this should be removed")]
-        public static int AddModuleOPermission(int roleId, int moduleId, string permissionCode, string permissionKey, int portalId = 0)
-        {
-            return AddModulePermission(roleId, moduleId, permissionCode, permissionKey, portalId);
-        }
 
         public static int AddModulePermission(int roleId, int moduleId, string permissionCode, string permissionKey, int portalId = 0)
         {

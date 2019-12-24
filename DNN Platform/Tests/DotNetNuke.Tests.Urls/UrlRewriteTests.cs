@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -294,7 +294,7 @@ namespace DotNetNuke.Tests.Urls
                 case 301:
                 case 302:
                     //Test for final Url if redirected
-                    Assert.AreEqual(expectedRedirectUrl, testHelper.Result.FinalUrl.TrimStart('/'));
+                    Assert.IsTrue(expectedRedirectUrl.Equals(testHelper.Result.FinalUrl.TrimStart('/'), StringComparison.InvariantCultureIgnoreCase));
                     Assert.AreEqual(redirectReason, testHelper.Result.Reason.ToString(), "Redirect reason incorrect");
                     break;
             }

@@ -1,6 +1,6 @@
 ﻿#region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -443,7 +443,7 @@ namespace DotNetNuke.Tests.Core.Providers.Folder
             _mockFolder.Setup(mf => mf.DeleteFolder(_folderInfo.Object));
 
             _directory.Setup(d => d.Exists(Constants.FOLDER_ValidFolderPath)).Returns(true);
-            _directory.Setup(d => d.Delete(Constants.FOLDER_ValidFolderPath, false)).Verifiable();
+            _directory.Setup(d => d.Delete(Constants.FOLDER_ValidFolderPath, true)).Verifiable();
 
             _mockFolderManager.Setup(mfm => mfm.DeleteFolder(Constants.CONTENT_ValidPortalId, Constants.FOLDER_ValidFolderRelativePath));
 
@@ -536,7 +536,7 @@ namespace DotNetNuke.Tests.Core.Providers.Folder
 
             var dr = files.CreateDataReader();
 
-            _mockData.Setup(md => md.GetFiles(Constants.FOLDER_ValidFolderId, It.IsAny<bool>())).Returns(dr).Verifiable();
+            _mockData.Setup(md => md.GetFiles(Constants.FOLDER_ValidFolderId, It.IsAny<bool>(), It.IsAny<bool>())).Returns(dr).Verifiable();
 
             var filesList = new List<FileInfo> { new FileInfo() { FileName = Constants.FOLDER_ValidFileName } };
 
@@ -559,7 +559,7 @@ namespace DotNetNuke.Tests.Core.Providers.Folder
 
             var dr = files.CreateDataReader();
 
-            _mockData.Setup(md => md.GetFiles(Constants.FOLDER_ValidFolderId, It.IsAny<bool>())).Returns(dr);
+            _mockData.Setup(md => md.GetFiles(Constants.FOLDER_ValidFolderId, It.IsAny<bool>(), It.IsAny<bool>())).Returns(dr);
 
             var filesList = new List<FileInfo> { new FileInfo { FileName = Constants.FOLDER_ValidFileName } };
 
@@ -583,7 +583,7 @@ namespace DotNetNuke.Tests.Core.Providers.Folder
 
             var dr = files.CreateDataReader();
 
-            _mockData.Setup(md => md.GetFiles(Constants.FOLDER_ValidFolderId, It.IsAny<bool>())).Returns(dr);
+            _mockData.Setup(md => md.GetFiles(Constants.FOLDER_ValidFolderId, It.IsAny<bool>(), It.IsAny<bool>())).Returns(dr);
 
             var filesList = new List<FileInfo>
                                 {
@@ -2131,22 +2131,6 @@ namespace DotNetNuke.Tests.Core.Providers.Folder
         #endregion
 
         #region MoveFolder
-
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void MoveFolder_Throws_On_Null_Folder()
-        {
-            _folderManager.MoveFolder(null, It.IsAny<string>());
-        }
-
-        [Test]
-        [TestCase(null)]
-        [TestCase("")]
-        [ExpectedException(typeof(ArgumentException))]
-        public void MoveFolder_Throws_On_Null_Or_Emtpy_NewFolderPath(string newFolderPath)
-        {
-            _folderManager.MoveFolder(_folderInfo.Object, newFolderPath);
-        }
 
         [Test]
         public void MoveFolder_Returns_The_Same_Folder_If_The_Paths_Are_The_Same()

@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -334,17 +334,34 @@ namespace DotNetNuke.Entities.Tabs
         {
             if (ContainsKey(tabId))
             {
-                Remove(tabId);
-                _list.RemoveAll(t => t.TabID == tabId);
-                _localizedTabs.ForEach(kvp =>
+                if (updatedTab == null) //the tab has been deleted
                 {
-                    kvp.Value.RemoveAll(t => t.TabID == tabId);
-                });
-            }
+                    Remove(tabId);
+                    _list.RemoveAll(t => t.TabID == tabId);
+                    _localizedTabs.ForEach(kvp =>
+                    {
+                        kvp.Value.RemoveAll(t => t.TabID == tabId);
+                    });
+                    _children.Remove(tabId);
+                }
+                else
+                {
+                    this[tabId] = updatedTab;
+                    var index = _list.FindIndex(t => t.TabID == tabId);
+                    if (index > Null.NullInteger)
+                    {
+                        _list[index] = updatedTab;
+                    }
 
-            if (updatedTab != null)
-            {
-                Add(updatedTab);
+                    _localizedTabs.ForEach(kvp =>
+                    {
+                        var localizedIndex = kvp.Value.FindIndex(t => t.TabID == tabId);
+                        if (localizedIndex > Null.NullInteger)
+                        {
+                            kvp.Value[localizedIndex] = updatedTab;
+                        }
+                    });
+                }
             }
         }
 

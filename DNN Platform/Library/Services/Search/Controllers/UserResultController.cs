@@ -1,6 +1,6 @@
 ﻿#region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -94,6 +94,20 @@ namespace DotNetNuke.Services.Search.Controllers
 
             if (searchResult.UniqueKey.Contains("allusers"))
             {
+                var scopeForRoles =
+                    PortalController.GetPortalSetting("SearchResult_ScopeForRoles", searchResult.PortalId, string.Empty)
+                        .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                if (scopeForRoles.Count > 0)
+                {
+                    if (userInSearchResult.IsSuperUser)
+                    {
+                        return scopeForRoles.Contains("Superusers");
+                    }
+
+                    return scopeForRoles.Any(i => userInSearchResult.IsInRole(i));
+                }
+
                 return true;
             }
 

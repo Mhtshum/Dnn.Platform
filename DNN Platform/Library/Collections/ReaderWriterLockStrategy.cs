@@ -1,6 +1,6 @@
 ﻿#region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -76,7 +76,8 @@ namespace DotNetNuke.Collections.Internal
         public ISharedCollectionLock GetReadLock(TimeSpan timeout)
         {
             EnsureNotDisposed();
-            if (Lock.TryEnterReadLock(timeout))
+            if (Lock.RecursionPolicy == LockRecursionPolicy.NoRecursion && Lock.IsReadLockHeld || 
+                Lock.TryEnterReadLock(timeout))
             {
                 return new ReaderWriterSlimLock(Lock);
             }
@@ -94,7 +95,8 @@ namespace DotNetNuke.Collections.Internal
         public ISharedCollectionLock GetWriteLock(TimeSpan timeout)
         {
             EnsureNotDisposed();
-            if (Lock.TryEnterWriteLock(timeout))
+            if (Lock.RecursionPolicy == LockRecursionPolicy.NoRecursion && Lock.IsWriteLockHeld || 
+                Lock.TryEnterWriteLock(timeout))
             {
                 return new ReaderWriterSlimLock(Lock);
             }
@@ -110,7 +112,6 @@ namespace DotNetNuke.Collections.Internal
             {
                 EnsureNotDisposed();
                 return Lock.IsReadLockHeld || Lock.IsWriteLockHeld;
-                //todo uncomment if upgradelock is used OrElse _lock.IsUpgradeableReadLockHeld
             }
         }
 

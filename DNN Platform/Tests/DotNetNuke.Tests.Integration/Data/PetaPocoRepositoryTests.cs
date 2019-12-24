@@ -1,7 +1,7 @@
 ﻿#region Copyright
 
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2013
 // by DotNetNuke Corporation
 // 
@@ -95,7 +95,7 @@ namespace DotNetNuke.Tests.Data
 #pragma warning restore 168
 
             //Assert
-            Assert.AreSame(mockMapper.Object, Mappers.GetMapper(typeof(Dog)));
+            Assert.AreSame(mockMapper.Object, Mappers.GetMapper(typeof(Dog), mockMapper.Object));
         }
 
         #endregion

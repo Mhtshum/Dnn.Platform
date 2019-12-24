@@ -1,4 +1,4 @@
-﻿// DotNetNuke® - http://www.dotnetnuke.com
+﻿// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -23,19 +23,23 @@ using DotNetNuke.UI.Modules;
 
 namespace DotNetNuke.Web.Razor
 {
-    public class RazorModuleControlFactory : IModuleControlFactory
+    [Obsolete("Deprecated in 9.3.2, will be removed in 11.0.0, use Razor Pages instead")]
+    public class RazorModuleControlFactory : BaseModuleControlFactory
     {
-        public Control CreateControl(TemplateControl containerControl, string controlKey, string controlSrc)
+        [Obsolete("Deprecated in 9.3.2, will be removed in 11.0.0, use Razor Pages instead")]
+        public override Control CreateControl(TemplateControl containerControl, string controlKey, string controlSrc)
         {
             return new RazorHostControl("~/" + controlSrc);
         }
 
-        public Control CreateModuleControl(TemplateControl containerControl, ModuleInfo moduleConfiguration)
+        [Obsolete("Deprecated in 9.3.2, will be removed in 11.0.0, use Razor Pages instead")]
+        public override Control CreateModuleControl(TemplateControl containerControl, ModuleInfo moduleConfiguration)
         {
             return CreateControl(containerControl, String.Empty, moduleConfiguration.ModuleControl.ControlSrc);
         }
 
-        public Control CreateSettingsControl(TemplateControl containerControl, ModuleInfo moduleConfiguration, string controlSrc)
+        [Obsolete("Deprecated in 9.3.2, will be removed in 11.0.0, use Razor Pages instead")]
+        public override Control CreateSettingsControl(TemplateControl containerControl, ModuleInfo moduleConfiguration, string controlSrc)
         {
             return CreateControl(containerControl, String.Empty, controlSrc);
         }

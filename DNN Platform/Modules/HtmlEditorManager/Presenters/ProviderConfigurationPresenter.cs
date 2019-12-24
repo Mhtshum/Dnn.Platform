@@ -1,5 +1,5 @@
 ﻿#region Copyright
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -41,7 +41,7 @@ namespace DotNetNuke.Modules.HtmlEditorManager.Presenters
     /// <summary>
     /// Presenter for Provider Configuration
     /// </summary>
-    [Obsolete("Deprecated in DNN 9.2.0. Replace WebFormsMvp and DotNetNuke.Web.Mvp with MVC or SPA patterns instead")]
+    [Obsolete("Deprecated in DNN 9.2.0. Replace WebFormsMvp and DotNetNuke.Web.Mvp with MVC or SPA patterns instead. Scheduled removal in v11.0.0.")]
     public class ProviderConfigurationPresenter : ModulePresenter<IProviderConfigurationView, ProviderConfigurationViewModel>
     {
         /// <summary>The HTML editor node</summary>
@@ -89,6 +89,7 @@ namespace DotNetNuke.Modules.HtmlEditorManager.Presenters
             this.View.Editor.Controls.Add(this.LoadCurrentEditor());
 
             // hack: force DNN to load the Telerik Combobox skin. Needed for the RadEditor provider
+            //TODO: Remove as the included file path isn't distributed with installs
             ClientResourceManager.RegisterStyleSheet(View.Editor.Page, "~/Portals/_default/Skins/_default/WebControlSkin/Default/ComboBox.Default.css");
         }
 

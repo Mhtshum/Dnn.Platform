@@ -1,7 +1,7 @@
 #region Copyright
 
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -116,7 +116,12 @@ namespace DotNetNuke.Services.Journal
 
         private void DeleteJournalItem(int portalId, int currentUserId, int journalId, bool softDelete)
         {
-            var ji = GetJournalItem(portalId, currentUserId, journalId);
+            var ji = GetJournalItem(portalId, currentUserId, journalId, !softDelete);
+            if (ji == null)
+            {
+                return;
+            }
+
             var groupId = ji.SocialGroupId;
 
             if (softDelete)
@@ -761,20 +766,5 @@ namespace DotNetNuke.Services.Journal
 
         #endregion
 
-        #region Obsolete Methods
-
-        [Obsolete("Deprecated in DNN 7.2.2. Use SaveJournalItem(JournalItem, ModuleInfo)")]
-        public void SaveJournalItem(JournalItem journalItem, int tabId)
-        {
-            SaveJournalItem(journalItem, tabId, Null.NullInteger);
-        }
-
-        [Obsolete("Deprecated in DNN 7.2.2. Use UpdateJournalItem(JournalItem, ModuleInfo)")]
-        public void UpdateJournalItem(JournalItem journalItem, int tabId)
-        {
-            UpdateJournalItem(journalItem, tabId, Null.NullInteger);
-        }
-
-        #endregion
     }
 }

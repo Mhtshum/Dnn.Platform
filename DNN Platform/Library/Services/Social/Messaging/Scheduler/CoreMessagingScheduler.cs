@@ -1,5 +1,5 @@
 ﻿#region Copyright
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -141,6 +141,7 @@ namespace DotNetNuke.Services.Social.Messaging.Scheduler
             template = template.Replace("[PORTALNAME]", portalSettings.PortalName);
             template = template.Replace("[LOGOURL]", GetPortalLogoUrl(portalSettings));
             template = template.Replace("[UNSUBSCRIBEURL]", GetSubscriptionsUrl(portalSettings, recipientUser.UserID));
+            template = template.Replace("[YEAR]", DateTime.Today.Year.ToString(CultureInfo.InvariantCulture));
             template = ResolveUrl(portalSettings, template);
 
             return template;
@@ -398,7 +399,6 @@ namespace DotNetNuke.Services.Social.Messaging.Scheduler
         {
             var cacheKey = string.Format("MessageTab:{0}", sendingPortal.PortalId);
             
-            // TODO: Create Default Const cache timeout
             var cacheItemArgs = new CacheItemArgs(cacheKey, 30, CacheItemPriority.Default, sendingPortal);
 
             return CBO.GetCachedObject<int>(cacheItemArgs, GetMessageTabCallback);
@@ -668,7 +668,6 @@ namespace DotNetNuke.Services.Social.Messaging.Scheduler
         /// <param name="messageRecipient">The message recipient.</param>
         private void SendMessage(MessageRecipient messageRecipient)
         {
-            // todo: check if host user can send to multiple portals...
             var message = InternalMessagingController.Instance.GetMessage(messageRecipient.MessageID);            
 
             var toUser = UserController.Instance.GetUser(message.PortalID, messageRecipient.UserID);

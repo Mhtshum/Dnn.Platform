@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -342,7 +342,7 @@ namespace DotNetNuke.UI.Containers
                 if (InjectActionMenu && !ModuleHost.IsViewMode(ModuleConfiguration, PortalSettings) && Request.QueryString["dnnprintmode"] != "true")
                 {
                     JavaScript.RequestRegistration(CommonJs.DnnPlugins);
-                    ContentPane.Controls.Add(LoadControl("~/admin/Menus/ModuleActions/ModuleActions.ascx"));
+                    ContentPane.Controls.Add(LoadControl(PortalSettings.DefaultModuleActionMenu));
 
                     //register admin.css
                     ClientResourceManager.RegisterAdminStylesheet(Page, Globals.HostPath + "admin.css");

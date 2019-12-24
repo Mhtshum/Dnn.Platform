@@ -1,6 +1,6 @@
 ﻿#region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -26,10 +26,18 @@ namespace DotNetNuke.Services.UserRequest
     public interface IUserRequestIPAddressController
     {
         /// <summary>
-        ///  To retrieve IP of user making request to application
+        ///  To retrieve IPv4 of user making request to application.
         /// </summary>
         /// <param name="request"></param>
         /// <returns>IP address</returns>
         string GetUserRequestIPAddress(HttpRequestBase request);
+
+        /// <summary>
+        ///  To retrieve IPv4/IPv6 of user making request to application
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="ipFamily"></param>
+        /// <returns>IP address</returns>
+        string GetUserRequestIPAddress(HttpRequestBase request, IPAddressFamily ipFamily);
     }
 }

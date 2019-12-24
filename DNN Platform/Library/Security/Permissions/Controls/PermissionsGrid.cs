@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -425,7 +425,6 @@ namespace DotNetNuke.Security.Permissions.Controls
                 if (_users.Count != 0)
                 {
                     userPermissionsGrid.Visible = true;
-                    UpdateUserPermissions();
                     DataRow row;
                     for (i = 0; i <= _users.Count - 1; i++)
                     {

@@ -1,6 +1,6 @@
 ﻿#region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -56,8 +56,7 @@ namespace DotNetNuke.Entities.Content.Workflow.Repositories
                     }
                 });
         }
-
-        // TODO: Validate
+        
         public void AddWorkflowState(WorkflowState state)
         {
             Requires.NotNull("state", state);
@@ -76,8 +75,7 @@ namespace DotNetNuke.Entities.Content.Workflow.Repositories
 
             CacheWorkflowState(state);
         }
-
-        // TODO: Validate
+        
         public void UpdateWorkflowState(WorkflowState state)
         {
             Requires.NotNull("state", state);

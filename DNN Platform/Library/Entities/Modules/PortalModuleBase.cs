@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -65,6 +65,20 @@ namespace DotNetNuke.Entities.Modules
         private readonly ILog _tracelLogger = LoggerSource.Instance.GetLogger("DNN.Trace");
         private string _localResourceFile;
         private ModuleInstanceContext _moduleContext;
+
+        /// <summary>
+        /// Gets or sets the Dependency Provider to resolve registered 
+        /// services with the container.
+        /// </summary>
+        /// <value>
+        /// The Dependency Service.
+        /// </value>
+        protected IServiceProvider DependencyProvider { get; }
+        
+        public PortalModuleBase()
+        {
+            DependencyProvider = Globals.DependencyProvider;
+        }
 
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ModuleActionCollection Actions
@@ -407,7 +421,7 @@ namespace DotNetNuke.Entities.Modules
         /// <remarks>
         /// </remarks>
         /// -----------------------------------------------------------------------------
-        [Obsolete("This property is deprecated.  Plaese use ModuleController.CacheDirectory()")]
+        [Obsolete("This property is deprecated.  Plaese use ModuleController.CacheDirectory(). Scheduled removal in v11.0.0.")]
         public string CacheDirectory
         {
             get
@@ -424,7 +438,7 @@ namespace DotNetNuke.Entities.Modules
         /// <remarks>
         /// </remarks>
         /// -----------------------------------------------------------------------------
-        [Obsolete("This property is deprecated.  Please use ModuleController.CacheFileName(TabModuleID)")]
+        [Obsolete("This property is deprecated.  Please use ModuleController.CacheFileName(TabModuleID). Scheduled removal in v11.0.0.")]
         public string CacheFileName
         {
             get
@@ -436,7 +450,7 @@ namespace DotNetNuke.Entities.Modules
             }
         }
 
-        [Obsolete("This property is deprecated.  Please use ModuleController.CacheKey(TabModuleID)")]
+        [Obsolete("This property is deprecated.  Please use ModuleController.CacheKey(TabModuleID). Scheduled removal in v11.0.0.")]
         public string CacheKey
         {
             get
@@ -448,7 +462,7 @@ namespace DotNetNuke.Entities.Modules
             }
         }
 
-        [Obsolete("This property is deprecated.  Please use ModuleController.CacheFileName(TabModuleID)")]
+        [Obsolete("This property is deprecated.  Please use ModuleController.CacheFileName(TabModuleID). Scheduled removal in v11.0.0.")]
         public string GetCacheFileName(int tabModuleId)
         {
             string strCacheKey = "TabModule:";
@@ -457,7 +471,7 @@ namespace DotNetNuke.Entities.Modules
             return PortalController.Instance.GetCurrentPortalSettings().HomeDirectoryMapPath + "Cache" + "\\" + Globals.CleanFileName(strCacheKey) + ".resources";
         }
 
-        [Obsolete("This property is deprecated.  Please use ModuleController.CacheKey(TabModuleID)")]
+        [Obsolete("This property is deprecated.  Please use ModuleController.CacheKey(TabModuleID). Scheduled removal in v11.0.0.")]
         public string GetCacheKey(int tabModuleId)
         {
             string strCacheKey = "TabModule:";
@@ -466,7 +480,7 @@ namespace DotNetNuke.Entities.Modules
             return strCacheKey;
         }
 
-        [Obsolete("This method is deprecated.  Plaese use ModuleController.SynchronizeModule(ModuleId)")]
+        [Obsolete("This method is deprecated.  Plaese use ModuleController.SynchronizeModule(ModuleId). Scheduled removal in v11.0.0.")]
         public void SynchronizeModule()
         {
             ModuleController.SynchronizeModule(ModuleId);

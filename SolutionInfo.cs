@@ -1,6 +1,6 @@
 ﻿#region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNuke® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -34,14 +34,6 @@ using System.Reflection;
 [assembly: AssemblyProduct("http://www.dnnsoftware.com")]
 [assembly: AssemblyCopyright("DotNetNuke is copyright 2002-2018 by DNN Corporation. All Rights Reserved.")]
 [assembly: AssemblyTrademark("DNN")]
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-[assembly: AssemblyVersion("9.2.2.0")]
-[assembly: AssemblyFileVersion("9.2.2.0")]
+[assembly: AssemblyVersion("9.4.2")]
+[assembly: AssemblyFileVersion("9.4.2.5835")]
+[assembly: AssemblyInformationalVersion("9.4.2-unstable.5835+Branch.reorg3.Sha.a7727fcf1e2a6d08b3b7fb1b110401296886fb96")]

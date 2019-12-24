@@ -1,6 +1,6 @@
 #region Copyright
 // 
-// DotNetNuke® - http://www.dotnetnuke.com
+// DotNetNukeÂ® - https://www.dnnsoftware.com
 // Copyright (c) 2002-2018
 // by DotNetNuke Corporation
 // 
@@ -48,8 +48,6 @@ namespace DotNetNuke.Services.Upgrade.Internals.InstallConfiguration
         public string FolderMappingsSettings { get; set; } 
 
         public bool SupportLocalization { get; set; }
-
-        public bool DisplayBanners { get; set; }
 
         public InstallConfig()
         {
